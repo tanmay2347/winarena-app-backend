@@ -77,6 +77,43 @@ app.get('/', (req, res) => {
   res.send('Win Arena Backend API is active!');
 });
 
+// Get User Profile & Details API (Database Sync)
+app.get('/api/user/profile', async (req, res) => {
+    try {
+        const { email } = req.query;
+        const userEmail = email || "user@winarena.com";
+
+        let user = await User.findOne({ email: userEmail });
+        if (!user) {
+            user = new User({
+                name: "Paras",
+                email: userEmail,
+                mobile: "",
+                walletBalance: 0.00
+            });
+            await user.save();
+        }
+
+        res.json({
+            success: true,
+            user: {
+                name: user.name || "Paras",
+                email: user.email,
+                mobile: user.mobile || "",
+                playerId: "WA912815",
+                walletBalance: user.walletBalance || 0.00,
+                totalWins: user.totalWins || 0,
+                totalGames: user.totalGames || 0,
+                winRate: user.winRate || "0%",
+                level: user.level || 0
+            }
+        });
+    } catch (err) {
+        console.error("Fetch profile error:", err);
+        res.status(500).json({ success: false, message: "Server error while fetching profile" });
+    }
+});
+
 // User Balance Get API
 app.get('/api/user/balance', async (req, res) => {
     try {
