@@ -1,0 +1,1856 @@
+/* =========================================================
+   WINARENA - GLOBAL / FONT
+   Ye section: website ke basic font, body aur common rules
+========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #03050a;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.winarena {
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
+
+
+/* =========================================================
+   HEADER
+   Ye section: Logo + Wallet + Notification + Profile
+========================================================= */
+
+.header {
+  height: 76px;
+  padding: 8px 5%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  background: rgba(3, 5, 10, 0.95);
+  backdrop-filter: blur(18px);
+
+  border-bottom: 1px solid #1d2433;
+}
+
+
+/* -------- WINARENA LOGO -------- */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  cursor: pointer;
+}
+
+.logo-mark {
+  width: 43px;
+  height: 43px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #ffc400,
+    #ff8c00
+  );
+
+  color: #080808;
+
+  font-family: "Orbitron";
+  font-size: 25px;
+  font-weight: 900;
+
+  box-shadow:
+    0 0 25px rgba(255, 196, 0, 0.25);
+
+  transition: 0.3s;
+}
+
+.logo:hover .logo-mark {
+  transform: rotate(-5deg) scale(1.05);
+}
+
+.logo strong {
+  display: block;
+
+  font-family: "Orbitron";
+  font-size: 15px;
+  line-height: 15px;
+}
+
+.logo strong:last-child {
+  color: #ffc400;
+}
+
+
+/* -------- HEADER RIGHT SIDE -------- */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+
+/* =========================================================
+   WALLET - HEADER
+   Ye section: Top wallet balance
+========================================================= */
+
+.wallet {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 6px 7px 6px 10px;
+
+  background: #090d16;
+
+  border: 1px solid #3b3215;
+
+  border-radius: 11px;
+}
+
+.wallet-icon {
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  background: #302707;
+
+  color: #ffc400;
+
+  border-radius: 8px;
+
+  font-weight: 800;
+}
+
+.wallet small {
+  display: block;
+
+  color: #777f90;
+
+  font-size: 8px;
+}
+
+.wallet b {
+  display: block;
+
+  color: #ffc400;
+
+  font-size: 12px;
+}
+
+.wallet-add {
+  width: 31px;
+  height: 31px;
+
+  display: grid;
+  place-items: center;
+
+  background: #ffc400;
+
+  color: #080808;
+
+  border-radius: 8px;
+
+  font-size: 20px;
+  font-weight: 800;
+
+  transition: 0.25s;
+}
+
+.wallet-add:hover {
+  transform: scale(1.08);
+  background: #ffd43b;
+}
+
+
+/* =========================================================
+   NOTIFICATION
+   Ye section: Notification bell
+========================================================= */
+
+.notification {
+  position: relative;
+
+  background: transparent;
+
+  color: white;
+
+  font-size: 20px;
+
+  transition: 0.25s;
+}
+
+.notification:hover {
+  color: #ffc400;
+  transform: scale(1.08);
+}
+
+.notification i {
+  width: 7px;
+  height: 7px;
+
+  position: absolute;
+
+  top: -1px;
+  right: -1px;
+
+  background: #ff3150;
+
+  border-radius: 50%;
+
+  animation: notificationPulse 1.5s infinite;
+}
+
+@keyframes notificationPulse {
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+
+/* =========================================================
+   PROFILE
+   Ye section: Header profile button
+========================================================= */
+
+.profile {
+  width: 39px;
+  height: 39px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #ffc400,
+    #6926ff
+  );
+
+  color: white;
+
+  transition: 0.3s;
+}
+
+.profile:hover {
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   HERO SECTION
+   Ye section: Main homepage banner
+========================================================= */
+
+.hero {
+  max-width: 1400px;
+  min-height: 410px;
+
+  margin: 20px auto;
+
+  padding: 50px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 22px;
+
+  border: 1px solid #45268c;
+
+  background:
+    radial-gradient(
+      circle at 80% 50%,
+      rgba(112, 40, 255, 0.42),
+      transparent 35%
+    ),
+    linear-gradient(
+      120deg,
+      #070a11,
+      #150b2d
+    );
+}
+
+
+/* Hero moving glow */
+
+.hero-glow {
+  width: 320px;
+  height: 320px;
+
+  position: absolute;
+
+  right: 100px;
+  top: 20px;
+
+  background: #7628ff;
+
+  filter: blur(120px);
+
+  opacity: 0.23;
+
+  animation: heroGlow 4s infinite alternate;
+}
+
+@keyframes heroGlow {
+  from {
+    transform: scale(0.7);
+  }
+
+  to {
+    transform: scale(1.3);
+  }
+}
+
+
+/* Hero text */
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.live-label {
+  color: #ffc400;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+}
+
+.hero h1 {
+  margin-top: 15px;
+
+  font-family: "Orbitron";
+
+  font-size: clamp(40px, 5vw, 68px);
+
+  line-height: 1.05;
+
+  letter-spacing: 2px;
+}
+
+.hero h1 span {
+  color: #b6bac4;
+}
+
+.hero h1 b {
+  color: #ffc400;
+}
+
+.hero p {
+  color: #858d9e;
+
+  max-width: 430px;
+
+  margin: 17px 0 23px;
+
+  font-size: 14px;
+}
+
+
+/* Hero button */
+
+.play-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 13px 21px;
+
+  background: linear-gradient(
+    135deg,
+    #ffc400,
+    #ff9a00
+  );
+
+  border-radius: 9px;
+
+  color: #080808;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 8px 25px rgba(255, 177, 0, 0.15);
+
+  transition: 0.3s;
+}
+
+.play-button:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 35px rgba(255, 177, 0, 0.3);
+}
+
+
+/* Hero trophy */
+
+.hero-trophy {
+  position: absolute;
+
+  right: 13%;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  font-size: 150px;
+
+  animation: heroFloating 3s ease-in-out infinite;
+}
+
+@keyframes heroFloating {
+  0%,
+  100% {
+    transform: translateY(-50%);
+  }
+
+  50% {
+    transform: translateY(-60%);
+  }
+}
+
+
+/* Hero slider dots */
+
+.slider-dots {
+  position: absolute;
+
+  bottom: 16px;
+  left: 50%;
+
+  display: flex;
+
+  gap: 7px;
+}
+
+.slider-dots span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #464c59;
+}
+
+.slider-dots .active {
+  width: 22px;
+
+  border-radius: 10px;
+
+  background: #ffc400;
+}
+
+
+/* =========================================================
+   QUICK MENU
+   Ye section: Games / Tournament / Leaderboard / Support
+========================================================= */
+
+.quick-menu {
+  max-width: 1400px;
+
+  margin: 0 auto 30px;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 12px;
+}
+
+.quick-card {
+  padding: 18px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  background: #080c15;
+
+  border: 1px solid #1c2637;
+
+  border-radius: 13px;
+
+  transition: 0.3s;
+
+  cursor: pointer;
+}
+
+.quick-card:hover {
+  transform: translateY(-5px);
+
+  border-color: #ffc400;
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.quick-card div {
+  font-size: 22px;
+}
+
+.quick-card span {
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   SECTION TITLE
+   Ye section: CHOOSE YOUR GAME / LIVE TOURNAMENTS
+========================================================= */
+
+.section-title {
+  max-width: 1400px;
+
+  margin: 25px auto 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.section-title > div {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.section-title i {
+  width: 5px;
+  height: 24px;
+
+  background: #ffc400;
+
+  border-radius: 5px;
+}
+
+.section-title h2 {
+  font-family: "Orbitron";
+
+  font-size: 17px;
+}
+
+.section-title button {
+  background: transparent;
+
+  color: #777f91;
+
+  font-size: 10px;
+}
+
+.section-title button:hover {
+  color: #ffc400;
+}
+
+.red-dot {
+  width: 8px;
+  height: 8px;
+
+  background: #ff3150;
+
+  border-radius: 50%;
+
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+
+/* =========================================================
+   GAMES SECTION
+   Ye section: Free Fire / Carrom / Ludo cards
+========================================================= */
+
+.games {
+  max-width: 1400px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 15px;
+}
+
+.game {
+  height: 220px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 15px;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #422078,
+      #090b13 65%
+    );
+
+  border: 1px solid #202a3d;
+
+  transition: 0.35s;
+
+  cursor: pointer;
+}
+
+.game:hover {
+  transform: translateY(-7px);
+
+  border-color: #ffc400;
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.game-bg {
+  height: 100%;
+
+  display: grid;
+
+  place-items: center;
+
+  font-size: 85px;
+
+  opacity: 0.65;
+
+  transition: 0.35s;
+}
+
+.game:hover .game-bg {
+  transform: scale(1.12);
+
+  opacity: 0.85;
+}
+
+.game-info {
+  position: absolute;
+
+  inset: auto 0 0 0;
+
+  padding: 17px;
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(0, 0, 0, 0.95)
+    );
+}
+
+.game-info h3 {
+  font-family: "Orbitron";
+
+  font-size: 19px;
+}
+
+.game-info p {
+  color: #ffc400;
+
+  font-size: 9px;
+
+  margin: 4px 0 9px;
+}
+
+.game-play-button {
+  display: inline-flex;
+
+  padding: 7px 11px;
+
+  border-radius: 7px;
+
+  background: #7028ff;
+
+  color: white;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  transition: 0.25s;
+}
+
+.game-play-button:hover {
+  background: #8a4cff;
+
+  transform: translateX(3px);
+}
+
+
+/* =========================================================
+   TOURNAMENT SECTION
+   Ye section: Live tournament cards
+========================================================= */
+
+.tournaments {
+  max-width: 1400px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 15px;
+}
+
+.tournament {
+  overflow: hidden;
+
+  background: #080c15;
+
+  border: 1px solid #202a3d;
+
+  border-radius: 14px;
+
+  transition: 0.3s;
+}
+
+.tournament:hover {
+  transform: translateY(-6px);
+
+  border-color: #ffc400;
+}
+
+.tournament-art {
+  height: 125px;
+
+  position: relative;
+
+  display: grid;
+
+  place-items: center;
+
+  background:
+    radial-gradient(
+      circle,
+      #4c217b,
+      #0b0d15
+    );
+}
+
+.tournament-art span {
+  font-size: 62px;
+
+  animation: tournamentIcon 2.5s ease-in-out infinite;
+}
+
+@keyframes tournamentIcon {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.tournament-art b {
+  position: absolute;
+
+  left: 9px;
+  top: 9px;
+
+  padding: 4px 7px;
+
+  background: #e72747;
+
+  border-radius: 5px;
+
+  font-size: 8px;
+}
+
+.tournament-info {
+  padding: 13px;
+}
+
+.tournament-info h3 {
+  font-family: "Orbitron";
+
+  font-size: 15px;
+}
+
+.tournament-info p {
+  color: #777f91;
+
+  font-size: 10px;
+
+  margin: 4px 0 11px;
+}
+
+.tournament-values {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+}
+
+.tournament-values small {
+  display: block;
+
+  color: #777f91;
+
+  font-size: 8px;
+}
+
+.tournament-values strong {
+  color: #ffc400;
+
+  font-size: 14px;
+}
+
+.tournament-join-button {
+  width: 100%;
+
+  display: block;
+
+  padding: 9px;
+
+  text-align: center;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6425ff,
+      #8b37ff
+    );
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  transition: 0.25s;
+}
+
+.tournament-join-button:hover {
+  filter: brightness(1.15);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   PROMO BANNER
+   Ye section: Play More / Win More banner
+========================================================= */
+
+.promo {
+  max-width: 1400px;
+
+  min-height: 180px;
+
+  margin: 30px auto;
+
+  padding: 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  border: 1px solid #5423a1;
+
+  border-radius: 16px;
+
+  background:
+    radial-gradient(
+      circle at 80%,
+      #4c1e86,
+      transparent 35%
+    ),
+    #100920;
+}
+
+.promo small {
+  color: #ffc400;
+
+  font-weight: 800;
+
+  font-size: 10px;
+}
+
+.promo h2 {
+  margin: 5px 0 14px;
+
+  font-family: "Orbitron";
+
+  font-size: 27px;
+}
+
+.promo-button {
+  display: inline-flex;
+
+  padding: 9px 15px;
+
+  border-radius: 8px;
+
+  background: #ffc400;
+
+  color: #080808;
+
+  font-weight: 800;
+
+  font-size: 11px;
+
+  transition: 0.25s;
+}
+
+.promo-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(255, 196, 0, 0.2);
+}
+
+.promo-trophy {
+  font-size: 90px;
+
+  animation:
+    promoFloating
+    3s
+    infinite
+    ease-in-out;
+}
+
+@keyframes promoFloating {
+  50% {
+    transform:
+      translateY(-12px)
+      rotate(5deg);
+  }
+}
+
+
+/* =========================================================
+   WALLET SECTION
+   Ye section: Total Balance + Total Tournaments
+========================================================= */
+
+.wallet-section {
+  max-width: 1400px;
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 14px;
+}
+
+.wallet-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 17px;
+
+  background: #080c15;
+
+  border: 1px solid #202a3d;
+
+  border-radius: 14px;
+
+  transition: 0.3s;
+}
+
+.wallet-card:hover {
+  border-color: #ffc400;
+
+  transform: translateY(-3px);
+}
+
+.wallet-big-icon,
+.trophy-icon {
+  width: 48px;
+  height: 48px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 11px;
+
+  background: #332907;
+
+  color: #ffc400;
+
+  font-size: 21px;
+
+  font-weight: 800;
+}
+
+.trophy-icon {
+  background: #271a49;
+}
+
+.wallet-card small {
+  color: #777f91;
+
+  font-size: 10px;
+}
+
+.wallet-card h2 {
+  font-size: 21px;
+}
+
+.wallet-card-add {
+  margin-left: auto;
+
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+
+  place-items: center;
+
+  background: #ffc400;
+
+  color: #080808;
+
+  border-radius: 8px;
+
+  font-size: 20px;
+
+  font-weight: 800;
+
+  transition: 0.25s;
+}
+
+.wallet-card-add:hover {
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   BOTTOM NAVIGATION
+   Ye section: Mobile / Desktop bottom navigation
+========================================================= */
+
+.bottom-nav {
+  height: 70px;
+
+  position: fixed;
+
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 100;
+
+  display: flex;
+
+  justify-content: center;
+
+  background: rgba(7, 10, 17, 0.97);
+
+  backdrop-filter: blur(18px);
+
+  border-top: 1px solid #20293a;
+}
+
+.nav-item {
+  width: 120px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 3px;
+
+  color: #737b8d;
+
+  font-size: 19px;
+
+  transition: 0.25s;
+}
+
+.nav-item small {
+  font-size: 9px;
+}
+
+.nav-item:hover {
+  color: #ffc400;
+}
+
+.nav-item.active {
+  color: #ffc400;
+}
+
+
+/* =========================================================
+   LOGIN / REGISTER PAGE
+   Ye section: Login + Register screen
+========================================================= */
+
+.auth-page {
+  min-height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 25px;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(255, 196, 0, 0.08),
+      transparent 35%
+    ),
+    #03050a;
+}
+
+
+/* Login background glow */
+
+.auth-glow {
+  width: 350px;
+  height: 350px;
+
+  position: absolute;
+
+  background: #ffc400;
+
+  filter: blur(180px);
+
+  opacity: 0.08;
+
+  animation:
+    authGlow
+    4s
+    infinite
+    alternate;
+}
+
+@keyframes authGlow {
+  from {
+    transform: scale(0.7);
+  }
+
+  to {
+    transform: scale(1.2);
+  }
+}
+
+
+/* Login box */
+
+.auth-box {
+  width: 100%;
+
+  max-width: 430px;
+
+  position: relative;
+
+  z-index: 2;
+
+  padding: 35px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15, 19, 29, 0.97),
+      rgba(5, 7, 12, 0.98)
+    );
+
+  border: 1px solid #2b303d;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    inset 0 1px rgba(255, 255, 255, 0.03);
+}
+
+
+/* Login logo */
+
+.auth-logo {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 8px;
+}
+
+.auth-logo > span {
+  width: 48px;
+  height: 48px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffc400,
+      #ff9200
+    );
+
+  color: #080808;
+
+  font-family: "Orbitron";
+
+  font-size: 27px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 0 30px rgba(255, 196, 0, 0.18);
+}
+
+.auth-logo div b {
+  display: block;
+
+  font-family: "Orbitron";
+
+  line-height: 16px;
+
+  font-size: 16px;
+}
+
+.auth-logo div b:last-child {
+  color: #ffc400;
+}
+
+.auth-tagline {
+  text-align: center;
+
+  color: #707888;
+
+  font-size: 9px;
+
+  letter-spacing: 3px;
+
+  margin-bottom: 27px;
+}
+
+
+/* Login heading */
+
+.auth-box h1 {
+  text-align: center;
+
+  font-family: "Orbitron";
+
+  font-size: 25px;
+
+  margin-bottom: 7px;
+}
+
+.auth-subtitle {
+  text-align: center;
+
+  color: #777f90;
+
+  font-size: 12px;
+
+  margin-bottom: 25px;
+}
+
+
+/* Login inputs */
+
+.auth-box input {
+  width: 100%;
+
+  height: 50px;
+
+  margin-bottom: 12px;
+
+  padding: 0 15px;
+
+  outline: none;
+
+  background: #090d15;
+
+  color: white;
+
+  border: 1px solid #242b39;
+
+  border-radius: 9px;
+
+  font-family: inherit;
+
+  transition: 0.25s;
+}
+
+.auth-box input:focus {
+  border-color: #ffc400;
+
+  box-shadow:
+    0 0 0 3px rgba(255, 196, 0, 0.06);
+}
+
+.auth-box input::placeholder {
+  color: #596171;
+}
+
+
+/* Login button */
+
+.auth-button {
+  width: 100%;
+
+  height: 50px;
+
+  margin-top: 5px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffc400,
+      #ff9700
+    );
+
+  color: #080808;
+
+  border-radius: 9px;
+
+  font-weight: 900;
+
+  transition: 0.3s;
+}
+
+.auth-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 30px rgba(255, 174, 0, 0.2);
+}
+
+
+/* Forgot password */
+
+.forgot {
+  display: block;
+
+  margin: 14px auto 20px;
+
+  background: none;
+
+  color: #ffc400;
+
+  font-size: 11px;
+}
+
+
+/* OR divider */
+
+.auth-divider {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: #555d6c;
+
+  font-size: 9px;
+
+  margin: 20px 0;
+}
+
+.auth-divider span {
+  height: 1px;
+
+  flex: 1;
+
+  background: #222936;
+}
+
+
+/* Guest button */
+
+.guest-button {
+  width: 100%;
+
+  height: 48px;
+
+  border-radius: 9px;
+
+  background: #10151f;
+
+  border: 1px solid #293140;
+
+  color: #d8dce4;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  transition: 0.3s;
+}
+
+.guest-button:hover {
+  border-color: #ffc400;
+
+  color: #ffc400;
+}
+
+
+/* Login/Register switch */
+
+.switch-auth {
+  text-align: center;
+
+  color: #697181;
+
+  font-size: 11px;
+
+  margin-top: 22px;
+}
+
+.switch-auth button {
+  background: none;
+
+  color: #ffc400;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   MOBILE RESPONSIVE
+   Ye section: Mobile phone ke liye complete layout
+========================================================= */
+
+@media (max-width: 768px) {
+
+  /* Header */
+
+  .header {
+    height: 68px;
+
+    padding: 7px 12px;
+  }
+
+  .header-actions {
+    gap: 9px;
+  }
+
+  .wallet {
+    padding: 5px;
+  }
+
+  .wallet small,
+  .wallet b {
+    display: none;
+  }
+
+  .wallet-icon {
+    width: 29px;
+    height: 29px;
+  }
+
+  .profile {
+    width: 36px;
+    height: 36px;
+  }
+
+
+  /* Hero */
+
+  .hero {
+    margin: 12px;
+
+    padding: 30px 22px;
+
+    min-height: 360px;
+  }
+
+  .hero h1 {
+    font-size: 37px;
+  }
+
+  .hero p {
+    font-size: 12px;
+
+    max-width: 280px;
+  }
+
+  .hero-trophy {
+    right: -20px;
+
+    opacity: 0.25;
+
+    font-size: 120px;
+  }
+
+
+  /* Quick menu */
+
+  .quick-menu {
+    margin: 0 12px 25px;
+
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+
+  /* Section titles */
+
+  .section-title {
+    margin-left: 12px;
+
+    margin-right: 12px;
+  }
+
+  .section-title h2 {
+    font-size: 14px;
+  }
+
+  .section-title button {
+    font-size: 8px;
+  }
+
+
+  /* Games */
+
+  .games,
+  .tournaments,
+  .wallet-section {
+
+    margin-left: 12px;
+
+    margin-right: 12px;
+
+    grid-template-columns: 1fr;
+  }
+
+
+  /* Promo */
+
+  .promo {
+    margin-left: 12px;
+
+    margin-right: 12px;
+
+    padding: 23px;
+  }
+
+  .promo h2 {
+    font-size: 22px;
+  }
+
+  .promo-trophy {
+    font-size: 55px;
+  }
+
+
+  /* Bottom navigation */
+
+  .bottom-nav {
+    justify-content: space-around;
+  }
+
+  .nav-item {
+    width: 20%;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   Ye section: 360px / small phone screens
+========================================================= */
+
+@media (max-width: 500px) {
+
+  .auth-page {
+    padding: 15px;
+  }
+
+  .auth-box {
+    padding: 27px 20px;
+  }
+
+  .auth-box h1 {
+    font-size: 21px;
+  }
+
+  .auth-logo > span {
+    width: 44px;
+    height: 44px;
+  }
+
+  .auth-logo div b {
+    font-size: 14px;
+  }
+
+  .hero h1 {
+    font-size: 33px;
+  }
+
+  .logo strong {
+    font-size: 13px;
+  }
+
+}
+
+/* =========================================
+   LOGIN PAGE
+========================================= */
+
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  background: #050505;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* LOGIN CARD */
+
+.login-card {
+  width: 100%;
+  max-width: 430px;
+  background: #101010;
+  border: 1px solid rgba(245, 180, 0, 0.25);
+  border-radius: 24px;
+  padding: 40px 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* LOGO */
+
+.login-logo {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin-bottom: 25px;
+}
+
+.login-logo span {
+  color: #f5b400;
+}
+
+/* TITLE */
+
+.login-card h1 {
+  color: #ffffff;
+  text-align: center;
+  font-size: 28px;
+  margin: 0;
+}
+
+.login-subtitle {
+  color: #888;
+  text-align: center;
+  font-size: 14px;
+  margin: 10px 0 30px;
+}
+
+/* INPUT GROUP */
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  color: #ddd;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.input-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #292929;
+  background: #181818;
+  color: #ffffff;
+  outline: none;
+  font-size: 15px;
+}
+
+.input-group input:focus {
+  border-color: #f5b400;
+  box-shadow: 0 0 0 2px rgba(245, 180, 0, 0.08);
+}
+
+.input-group input::placeholder {
+  color: #666;
+}
+
+/* FORGOT PASSWORD */
+
+.forgot-password {
+  text-align: right;
+  margin-bottom: 22px;
+}
+
+.forgot-password a {
+  color: #f5b400;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+/* LOGIN BUTTON */
+
+.login-button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: #f5b400;
+  color: #050505;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 180, 0, 0.25);
+}
+
+/* CREATE ACCOUNT */
+
+.create-account {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+}
+
+.create-account a {
+  color: #f5b400;
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+
+  .login-page {
+    padding: 15px;
+  }
+
+  .login-card {
+    padding: 30px 22px;
+    border-radius: 20px;
+  }
+
+  .login-logo {
+    font-size: 28px;
+  }
+
+  .login-card h1 {
+    font-size: 24px;
+  }
+}
+
+/* Wallet card ke plus button ko hide karne ke liye */
+.wallet-card-add {
+  display: none !important;
+}
+
+.wallet-add {
+  display: none !important;
+}

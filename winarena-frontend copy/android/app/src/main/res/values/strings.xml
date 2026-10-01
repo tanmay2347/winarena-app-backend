@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">WinArena</string>
+    <string name="title_activity_main">WinArena</string>
+    <string name="package_name">com.winarena.app</string>
+    <string name="custom_url_scheme">com.winarena.app</string>
+</resources>
