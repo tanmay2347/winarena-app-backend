@@ -14,8 +14,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
+// 🟢 Proper CORS configuration to prevent blocking requests from mobile/app
+app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: ["Content-Type", "Authorization"] }));
 app.use(express.json());
-app.use(cors());
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -123,7 +124,7 @@ app.get('/api/user/balance', async (req, res) => {
         const userEmail = req.query.email || "user@winarena.com";
         let user = await User.findOne({ email: userEmail });
         if (!user) {
-            user = new User({ email: userEmail, walletBalance: 0.00 });
+            user = new User({ email: userEmail, walletBalance: 500.00 });
             await user.save();
         }
         res.json({ success: true, balance: user.walletBalance });
@@ -284,7 +285,7 @@ app.post('/api/withdraw', async (req, res) => {
             commissionAmount: commission,
             finalPayout,
             method,
-            details
+            details: details || {}
         });
         await withdrawal.save();
 
