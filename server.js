@@ -14,7 +14,6 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
-// 🟢 Proper CORS configuration to prevent blocking requests from mobile/app
 app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: ["Content-Type", "Authorization"] }));
 app.use(express.json());
 
@@ -34,7 +33,7 @@ mongoose.connect(MONGO_URI)
   });
 
 // ==========================================
-// SCHEMAS & MODELS (WINARENA ORIGINAL)
+// SCHEMAS & MODELS
 // ==========================================
 
 const userSchema = new mongoose.Schema({
@@ -72,16 +71,14 @@ const tournamentSchema = new mongoose.Schema({
 });
 const Tournament = mongoose.model('Tournament', tournamentSchema);
 
-
 // ==========================================
-// ROUTES (WINARENA ORIGINAL)
+// ROUTES
 // ==========================================
 
 app.get('/api/health', (req, res) => {
   res.send('Win Arena Backend API is active!');
 });
 
-// Get User Profile & Details API (Database Sync)
 app.get('/api/user/profile', async (req, res) => {
     try {
         const { email } = req.query;
@@ -105,11 +102,11 @@ app.get('/api/user/profile', async (req, res) => {
                 email: user.email,
                 mobile: user.mobile || "",
                 playerId: "WA912815",
-                walletBalance: user.walletBalance || 0.00,
-                totalWins: user.totalWins || 0,
-                totalGames: user.totalGames || 0,
-                winRate: user.winRate || "0%",
-                level: user.level || 0
+                walletBalance: typeof user.walletBalance === 'number' ? user.walletBalance : 0.00,
+                totalWins: 0,
+                totalGames: 0,
+                winRate: "0%",
+                level: 0
             }
         });
     } catch (err) {
@@ -118,48 +115,20 @@ app.get('/api/user/profile', async (req, res) => {
     }
 });
 
-// User Balance Get API
 app.get('/api/user/balance', async (req, res) => {
     try {
         const userEmail = req.query.email || "user@winarena.com";
         let user = await User.findOne({ email: userEmail });
         if (!user) {
-            user = new User({ email: userEmail, walletBalance: 500.00 });
+            user = new User({ email: userEmail, walletBalance: 0.00 });
             await user.save();
         }
-        res.json({ success: true, balance: user.walletBalance });
+        res.json({ success: true, balance: typeof user.walletBalance === 'number' ? user.walletBalance : 0.00 });
     } catch (err) {
         res.status(500).json({ success: false, message: "Error fetching balance" });
     }
 });
 
-// User Search / Verify API
-app.get('/api/user/search', async (req, res) => {
-    try {
-        const { mobile } = req.query;
-        if (!mobile) return res.status(400).json({ success: false, message: "Mobile number required" });
-
-        const user = await User.findOne({ mobile: mobile.trim() });
-        if (!user) {
-            return res.status(404).json({ success: false, message: "User not found with this mobile number!" });
-        }
-
-        res.json({
-            success: true,
-            user: {
-                name: user.name,
-                mobile: user.mobile,
-                email: user.email,
-                balance: user.walletBalance
-            }
-        });
-    } catch (err) {
-        console.error("Search user error:", err);
-        res.status(500).json({ success: false, message: "Server error during user search" });
-    }
-});
-
-// User Register / Sync API
 app.post('/api/user/register', async (req, res) => {
     try {
         const { name, email, mobile } = req.body;
@@ -187,7 +156,6 @@ app.post('/api/user/register', async (req, res) => {
     }
 });
 
-// Dedicated Add Money / Deposit API Route
 app.post('/api/wallet/add', async (req, res) => {
     try {
         const { email, amount } = req.body;
@@ -203,7 +171,8 @@ app.post('/api/wallet/add', async (req, res) => {
             user = new User({ email: userEmail, walletBalance: 0.00 });
         }
 
-        user.walletBalance = parseFloat((user.walletBalance + addAmount).toFixed(2));
+        const currentBal = typeof user.walletBalance === 'number' ? user.walletBalance : 0.00;
+        user.walletBalance = parseFloat((currentBal + addAmount).toFixed(2));
         await user.save();
 
         res.json({ 
@@ -217,42 +186,7 @@ app.post('/api/wallet/add', async (req, res) => {
     }
 });
 
-// Dedicated Deduct / Spend Money API
-app.post('/api/wallet/deduct', async (req, res) => {
-    try {
-        const { email, amount } = req.body;
-        const deductAmount = parseFloat(amount);
-        const userEmail = email || "user@winarena.com";
-
-        if (!deductAmount || deductAmount <= 0) {
-            return res.status(400).json({ success: false, message: "Invalid amount!" });
-        }
-
-        let user = await User.findOne({ email: userEmail });
-        if (!user) {
-            user = new User({ email: userEmail, walletBalance: 0.00 });
-            await user.save();
-        }
-
-        if (user.walletBalance < deductAmount) {
-            return res.status(400).json({ success: false, message: "Insufficient balance!" });
-        }
-
-        user.walletBalance = parseFloat((user.walletBalance - deductAmount).toFixed(2));
-        await user.save();
-
-        res.json({ 
-            success: true, 
-            message: "Amount deducted successfully!", 
-            newBalance: user.walletBalance 
-        });
-    } catch (err) {
-        console.error("Deduct money error:", err);
-        res.status(500).json({ success: false, message: "Server error during deduction" });
-    }
-});
-
-// Dedicated Withdrawal API Route
+// 🟢 FIXED WITHDRAWAL API ROUTE (Safe balance calculation & error handling)
 app.post('/api/withdraw', async (req, res) => {
     try {
         const { email, amount, method, details } = req.body;
@@ -269,14 +203,16 @@ app.post('/api/withdraw', async (req, res) => {
             await user.save();
         }
 
-        if (user.walletBalance < amt) {
+        const currentBalance = typeof user.walletBalance === 'number' ? user.walletBalance : 0.00;
+
+        if (currentBalance < amt) {
             return res.status(400).json({ success: false, message: "Insufficient balance!" });
         }
 
         const commission = parseFloat((amt * 0.025).toFixed(2));
         const finalPayout = parseFloat((amt - commission).toFixed(2));
 
-        user.walletBalance = parseFloat((user.walletBalance - amt).toFixed(2));
+        user.walletBalance = parseFloat((currentBalance - amt).toFixed(2));
         await user.save();
 
         const withdrawal = new Withdrawal({
@@ -284,7 +220,7 @@ app.post('/api/withdraw', async (req, res) => {
             withdrawalAmount: amt,
             commissionAmount: commission,
             finalPayout,
-            method,
+            method: method || "UPI",
             details: details || {}
         });
         await withdrawal.save();
@@ -297,12 +233,11 @@ app.post('/api/withdraw', async (req, res) => {
             finalPayout: finalPayout
         });
     } catch (err) {
-        console.error("Withdrawal error:", err);
-        res.status(500).json({ success: false, message: "Server error during withdrawal" });
+        console.error("Withdrawal error details:", err.message);
+        res.status(500).json({ success: false, message: "Server error during withdrawal: " + err.message });
     }
 });
 
-// Admin Get Withdrawals API
 app.get('/api/admin/withdrawals', async (req, res) => {
     try {
         const withdrawals = await Withdrawal.find().sort({ timestamp: -1 });
@@ -313,7 +248,6 @@ app.get('/api/admin/withdrawals', async (req, res) => {
     }
 });
 
-// Admin Approve Withdrawal API
 app.post('/api/admin/approve-withdrawal', async (req, res) => {
     try {
         const { id } = req.body;
@@ -331,7 +265,6 @@ app.post('/api/admin/approve-withdrawal', async (req, res) => {
     }
 });
 
-// ---------------- TOURNAMENT APIs ----------------
 app.get('/api/tournaments', async (req, res) => {
     try {
         const tournaments = await Tournament.find().sort({ timestamp: -1 });
@@ -363,7 +296,6 @@ app.post('/api/tournaments', async (req, res) => {
     }
 });
 
-// Tournament Join API
 app.post('/api/tournaments/join', async (req, res) => {
     try {
         const { tournamentId, userEmail, userName, gameId, gameUsername } = req.body;
@@ -399,7 +331,6 @@ app.post('/api/tournaments/join', async (req, res) => {
     }
 });
 
-// Admin Pay Winner API
 app.post('/api/admin/pay-winner', async (req, res) => {
     try {
         const { userEmail, prizeAmount } = req.body;
@@ -414,7 +345,8 @@ app.post('/api/admin/pay-winner', async (req, res) => {
             return res.status(404).json({ success: false, message: "User not found!" });
         }
 
-        user.walletBalance = parseFloat((user.walletBalance + winAmount).toFixed(2));
+        const currentBal = typeof user.walletBalance === 'number' ? user.walletBalance : 0.00;
+        user.walletBalance = parseFloat((currentBal + winAmount).toFixed(2));
         await user.save();
 
         res.json({
@@ -428,71 +360,6 @@ app.post('/api/admin/pay-winner', async (req, res) => {
     }
 });
 
-// P2P Wallet Transfer API
-app.post('/api/transfer', async (req, res) => {
-    try {
-        const { senderEmail, recipientMobile, amount } = req.body;
-        const trAmount = parseFloat(amount);
-        
-        if (!trAmount || trAmount <= 0) {
-            return res.status(400).json({ success: false, message: "Invalid transfer amount!" });
-        }
-
-        const validSenderEmail = senderEmail || "user@winarena.com";
-        const cleanRecipientMobile = (recipientMobile || "").trim();
-
-        let sender = await User.findOne({ email: validSenderEmail });
-        if (!sender) {
-            sender = new User({
-                name: validSenderEmail.split('@')[0],
-                email: validSenderEmail,
-                mobile: "8857824607",
-                walletBalance: 100.00
-            });
-            await sender.save();
-        }
-
-        let recipient = await User.findOne({ mobile: cleanRecipientMobile });
-        if (!recipient) {
-            recipient = new User({
-                name: `User_${cleanRecipientMobile.slice(-4) || "Player"}`,
-                email: `${cleanRecipientMobile || Date.now()}@winarena.com`,
-                mobile: cleanRecipientMobile,
-                walletBalance: 0.00
-            });
-            await recipient.save();
-        }
-
-        if (sender.mobile && cleanRecipientMobile && sender.mobile === cleanRecipientMobile) {
-            return res.status(400).json({ success: false, message: "Cannot transfer money to your own account!" });
-        }
-
-        if (sender.walletBalance < trAmount) {
-            return res.status(400).json({ 
-                success: false, 
-                message: `Insufficient wallet balance! Your balance is ₹${sender.walletBalance.toFixed(2)}` 
-            });
-        }
-
-        sender.walletBalance = parseFloat((sender.walletBalance - trAmount).toFixed(2));
-        recipient.walletBalance = parseFloat((recipient.walletBalance + trAmount).toFixed(2));
-
-        await sender.save();
-        await recipient.save();
-
-        res.json({ 
-            success: true, 
-            message: "Transfer successful!", 
-            senderNewBalance: sender.walletBalance,
-            recipientNewBalance: recipient.walletBalance 
-        });
-    } catch (err) {
-        console.error("P2P Transfer error:", err);
-        res.status(500).json({ success: false, message: "Server error during P2P transfer: " + err.message });
-    }
-});
-
-// ---------------- CASHFREE ORDER API ----------------
 app.post('/api/create-cashfree-order', async (req, res) => {
     try {
         const { amount, customerEmail, customerPhone } = req.body;
@@ -535,7 +402,6 @@ app.post('/api/create-cashfree-order', async (req, res) => {
     }
 });
 
-// ---------------- CASHFREE PAYMENT STATUS ROUTE ----------------
 app.get('/api/payment-status', async (req, res) => {
     try {
         const { order_id, email, amount } = req.query;
@@ -544,7 +410,8 @@ app.get('/api/payment-status', async (req, res) => {
             const addAmount = parseFloat(amount);
             let user = await User.findOne({ email: email });
             if (user && addAmount > 0) {
-                user.walletBalance = parseFloat((user.walletBalance + addAmount).toFixed(2));
+                const currentBal = typeof user.walletBalance === 'number' ? user.walletBalance : 0.00;
+                user.walletBalance = parseFloat((currentBal + addAmount).toFixed(2));
                 await user.save();
             }
         }
