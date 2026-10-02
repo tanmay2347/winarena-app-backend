@@ -185,7 +185,6 @@ app.post('/api/wallet/add', async (req, res) => {
     }
 });
 
-// 🟢 100% SAFE & CRASH-PROOF WITHDRAWAL API
 app.post('/api/withdraw', async (req, res) => {
     try {
         const { email, amount, method, details } = req.body;
@@ -292,6 +291,43 @@ app.post('/api/tournaments', async (req, res) => {
     } catch (err) {
         console.error("Error creating tournament:", err);
         res.status(500).json({ success: false, message: "Server error while creating tournament" });
+    }
+});
+
+// 🟢 NEW: Publish / Update Room Credentials API Route
+app.put('/api/tournaments/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { roomId, roomPass } = req.body;
+
+        const tournament = await Tournament.findById(id);
+        if (!tournament) {
+            return res.status(404).json({ success: false, message: "Tournament not found!" });
+        }
+
+        tournament.roomId = roomId || "";
+        tournament.roomPass = roomPass || "";
+        await tournament.save();
+
+        res.json({ success: true, message: "Room credentials published successfully!", tournament });
+    } catch (err) {
+        console.error("Publish room error:", err);
+        res.status(500).json({ success: false, message: "Server error while publishing room details" });
+    }
+});
+
+// 🟢 NEW: Delete Tournament API Route
+app.delete('/api/tournaments/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deleted = await Tournament.findByIdAndDelete(id);
+        if (!deleted) {
+            return res.status(404).json({ success: false, message: "Tournament not found!" });
+        }
+        res.json({ success: true, message: "Tournament deleted successfully!" });
+    } catch (err) {
+        console.error("Delete tournament error:", err);
+        res.status(500).json({ success: false, message: "Server error while deleting tournament" });
     }
 });
 
@@ -502,5 +538,3 @@ app.get('/api/payment-status', async (req, res) => {
         res.status(500).send("Server error during payment status check");
     }
 });
-
-// Socket.io game logic remains intact...
