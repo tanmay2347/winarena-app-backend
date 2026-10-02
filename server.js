@@ -776,8 +776,8 @@ io.on("connection", (socket) => {
   });
 });
 
-// Static frontend build serving (optional if hosted separately)
+// Static frontend build serving (Fixed for Express v5)
 app.use(express.static(path.join(__dirname, "./winarena-frontend/dist")));
-app.get('*', (_, res) => {
+app.get('/*', (_, res) => {
   res.sendFile(path.join(__dirname, "./winarena-frontend/dist/index.html"));
 });
